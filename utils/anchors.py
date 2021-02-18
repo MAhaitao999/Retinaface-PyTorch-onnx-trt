@@ -36,7 +36,7 @@ class Anchors(object):
                     for cy, cx in product(dense_cy, dense_cx):
                         self.anchors += [cx, cy, s_kx, s_ky]
 
-        output = torch.Tensor(anchors).view(-1, 4)
+        output = torch.Tensor(self.anchors).view(-1, 4)
         print(output)
         if self.clip:
             output.clamp_(max=1, min=0)
@@ -44,9 +44,7 @@ class Anchors(object):
 
 
 if __name__ == '__main__':
-    from config import *
+    from .config import *
     anchors = Anchors(cfg=cfg_mnet, image_size=(640, 640))
     output = anchors.get_anchors()
     print(output.shape)
-        
-        
