@@ -61,7 +61,7 @@ class RetinaFace(nn.Module):
         backbone = None
         if cfg['name'] == 'mobilenet0.25':
             backbone = MobileNetV1()
-            if pretrained:
+            if pretrained:  # 选择使用mobilenet作为backbone预加载权重
                 checkpoint = torch.load('./model_data/mobilenetV1X0.25_pretrain.tar', map_location=torch.device('cpu'))
                 new_state_dict = OrderedDict()
                 for k, v in checkpoint['state_dict'].items():
