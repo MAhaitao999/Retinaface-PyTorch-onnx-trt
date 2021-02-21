@@ -85,7 +85,7 @@ def jaccard(box_a, box_b):
     #   计算先验框和真实框各自的面积
     #-------------------------------------#
     area_a = ((box_a[:, 2] - box_a[:, 0]) * (box_a[:, 3] - box_a[:, 1])).unsqueeze(1).expand_as(inter)  # [A, B]
-    area_b = ((box_b[:, 2] - box_b[:, 0]) * (box_b[:, 3] - box_b[:, 1])).unsqueeze(1).expand_as(inter)  # [A, B]
+    area_b = ((box_b[:, 2] - box_b[:, 0]) * (box_b[:, 3] - box_b[:, 1])).unsqueeze(0).expand_as(inter)  # [A, B]
 
     union = area_a + area_b - inter
     #-------------------------------------#
@@ -95,6 +95,7 @@ def jaccard(box_a, box_b):
 
 
 def match(threshold, truths, priors, variances, labels, landms, loc_t, conf_t, landm_t, idx):
+    # print('xxxxxx', landm_t.shape)
     #----------------------------------------------#
     #   计算所有的先验框和真实框的重合程度
     #----------------------------------------------#
@@ -147,6 +148,7 @@ def match(threshold, truths, priors, variances, labels, landms, loc_t, conf_t, l
     loc = encode(matches, priors, variances)
     landm = encode_landm(matches_landm, priors, variances)
 
+    # print('Hello world')
     # [num_priors, 4]
     loc_t[idx] = loc
     # [num_priors]

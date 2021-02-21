@@ -37,7 +37,7 @@ class Anchors(object):
                         self.anchors += [cx, cy, s_kx, s_ky]
 
         output = torch.Tensor(self.anchors).view(-1, 4)
-        print(output)
+        # print(output)
         if self.clip:
             output.clamp_(max=1, min=0)
         return output

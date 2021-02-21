@@ -43,7 +43,7 @@ class MultiBoxLoss(nn.Module):
         #    创建一个tensor进行处理
         #--------------------------------------------------#
         loc_t = torch.Tensor(num, num_priors, 4)
-        landm_t = torch.Tensor(num, num_priors, 4)
+        landm_t = torch.Tensor(num, num_priors, 10)
         conf_t = torch.LongTensor(num, num_priors)
 
         for idx in range(num):
@@ -59,7 +59,7 @@ class MultiBoxLoss(nn.Module):
             #   如果真实框和先验框的重合度较高，则认为匹配上了。
             #   该先验框用于负责检测出该真实框。
             # --------------------------------------------------#
-            match(self.threshold, truths, defaults, self.variance, landms, loc_t, conf_t, landm_t, idx)
+            match(self.threshold, truths, defaults, self.variance, labels, landms, loc_t, conf_t, landm_t, idx)
 
         #--------------------------------------------------#
         #   转化成Variable
@@ -226,6 +226,7 @@ class DataGenerator(data.Dataset):
         labels = []
         isFirst = True
         for line in lines:
+            line = line.rstrip()
             if line.startswith('#'):
                 if isFirst is True:
                     isFirst = False
@@ -236,11 +237,13 @@ class DataGenerator(data.Dataset):
                 path = line[2:]
                 path = self.txt_path.replace('label.txt', 'images/') + path
                 imgs_path.append(path)
-        else:
-            line = line.split(' ')
-            label = [float(x) for x in line]
-            labels.append(label)
+            else:
+                line = line.split(' ')
+                label = [float(x) for x in line]
+                labels.append(label)
         words.append(labels)
+        # print('imgs_path is: ', imgs_path[0])
+        # print('words is: ', words[0])
         return imgs_path, words
 
     def __len__(self):
@@ -273,7 +276,7 @@ class DataGenerator(data.Dataset):
             #-----------------------------------#
             #   landmarks 人脸关键点的位置
             #-----------------------------------#
-            annotations[0, 4] = label[4]   # 10_x
+            annotation[0, 4] = label[4]   # 10_x
             annotation[0, 5] = label[5]    # l0_y
             annotation[0, 6] = label[7]    # l1_x
             annotation[0, 7] = label[8]    # l1_y
@@ -283,7 +286,7 @@ class DataGenerator(data.Dataset):
             annotation[0, 11] = label[14]  # l3_y
             annotation[0, 12] = label[16]  # l4_x
             annotation[0, 13] = label[17]  # l4_y
-            if annotation[0: 4] < 0:
+            if annotation[0, 4] < 0:
                 annotation[0, 14] = -1
             else:
                 annotation[0, 14] = 1

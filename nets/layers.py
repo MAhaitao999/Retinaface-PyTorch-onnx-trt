@@ -91,7 +91,7 @@ class FPN(nn.Module):
         #         C4  40, 40, 128
         #         C5  20, 20, 256
         # -------------------------------------------#
-        inputs = list(inputs.values)
+        inputs = list(inputs.values())
 
         # -------------------------------------------#
         #   获得三个shape的有效特征层

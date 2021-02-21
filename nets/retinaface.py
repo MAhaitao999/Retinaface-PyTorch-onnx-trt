@@ -71,6 +71,7 @@ class RetinaFace(nn.Module):
         elif cfg['name'] == 'Resnet50':
             backbone = models.resnet50(pretrained=pretrained)
 
+        # print('backbone is: ', backbone.stage1)
         self.body = IntermediateLayerGetter(backbone, cfg['return_layers'])
 
         # 获得每个初步有效特征层的通道数
@@ -84,6 +85,8 @@ class RetinaFace(nn.Module):
         self.ClassHead = self._make_class_head(fpn_num=3, in_channels=cfg['out_channel'])
         self.BboxHead = self._make_bbox_head(fpn_num=3, in_channels=cfg['out_channel'])
         self.LandmarkHead = self._make_landmark_head(fpn_num=3, in_channels=cfg['out_channel'])
+
+        self.mode = mode
 
     @staticmethod
     def _make_class_head(fpn_num=3, in_channels=64, anchor_num=2):
@@ -113,6 +116,8 @@ class RetinaFace(nn.Module):
         #        C4 40, 40, 128
         #        C5 20, 20, 256
         #-------------------------------------------#
+        # print('--------------------------------------')
+        # print(inputs.shape)
         out = self.body.forward(inputs)
 
         #-------------------------------------------#
