@@ -19,6 +19,9 @@ class Anchors(object):
         #   三个有效特征层高和宽
         #---------------------------#
         self.feature_maps = [[ceil(self.image_size[0]/step), ceil(self.image_size[1]/step)] for step in self.steps]
+        # self.feature_maps = [[(self.image_size[0]/step).ceil().long(),
+        #                       (self.image_size[0]/step).ceil().long()] for step in self.steps]
+        # print('self.feature_maps is: ', self.feature_maps)
         self.anchors = []
 
     def get_anchors(self):

@@ -115,21 +115,21 @@ if __name__ == '__main__':
         anchors = anchors.cuda()
 
     model = RetinaFace(cfg=cfg, pretrained=pretrained).train()
-    # #-------------------------------------------#
-    # #   权值文件的下载请看README
-    # #   权值和主干特征提取网络一定要对应
-    # #-------------------------------------------#
-    # model_path = "model_data/Retinaface_mobilenet0.25.pth"
-    # print('Loading weights into state dict...')
-    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # model_dict = model.state_dict()
-    # pretrained_dict = torch.load(model_path, map_location=device)
-    # for k, v in pretrained_dict.items():
-    #     print(k)
-    # pretrained_dict = {k: v for k, v in pretrained_dict.items() if np.shape(model_dict[k]) == np.shape(v)}
-    # model_dict.update(pretrained_dict)
-    # model.load_state_dict(model_dict)
-    # print('Finished!')
+    #-------------------------------------------#
+    #   权值文件的下载请看README
+    #   权值和主干特征提取网络一定要对应
+    #-------------------------------------------#
+    model_path = "model_data/Retinaface_mobilenet0.25.pth"
+    print('Loading weights into state dict...')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model_dict = model.state_dict()
+    pretrained_dict = torch.load(model_path, map_location=device)
+    for k, v in pretrained_dict.items():
+        print(k)
+    pretrained_dict = {k: v for k, v in pretrained_dict.items() if np.shape(model_dict[k]) == np.shape(v)}
+    model_dict.update(pretrained_dict)
+    model.load_state_dict(model_dict)
+    print('Finished!')
 
     net = model
     if Cuda:

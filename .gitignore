@@ -1,3 +1,5 @@
 .idea
 *.iml
 */__pycache__
+mobilenetV1X0.25_pretrain.tar
+Retinaface_mobilenet0.25.pth
