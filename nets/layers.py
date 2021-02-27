@@ -46,23 +46,23 @@ class SSH(nn.Module):
             leaky = 0.1
 
         # 3x3卷积
-        self.conv3X3 = conv_bn_no_relu(in_channels, out_channels//2, stride=1)
+        self.conv3x3 = conv_bn_no_relu(in_channels, out_channels//2, stride=1)
 
         # 利用两个3x3的卷积替换5x5卷积
-        self.conv5X5_1 = conv_bn(in_channels, out_channels//4, leaky=leaky)
-        self.conv5X5_2 = conv_bn_no_relu(out_channels//4, out_channels//4, stride=1)
+        self.conv5x5_1 = conv_bn(in_channels, out_channels//4, leaky=leaky)
+        self.conv5x5_2 = conv_bn_no_relu(out_channels//4, out_channels//4, stride=1)
 
         # 利用三个3x3的卷积替换7x7卷积
-        self.conv7X7_2 = conv_bn(out_channels//4, out_channels//4, stride=1, leaky=leaky)
+        self.conv7x7_2 = conv_bn(out_channels//4, out_channels//4, stride=1, leaky=leaky)
         self.conv7x7_3 = conv_bn_no_relu(out_channels//4, out_channels//4, stride=1)
 
     def forward(self, inputs):
-        conv3x3 = self.conv3X3(inputs)
+        conv3x3 = self.conv3x3(inputs)
 
-        conv5x5_1 = self.conv5X5_1(inputs)
-        conv5x5 = self.conv5X5_2(conv5x5_1)
+        conv5x5_1 = self.conv5x5_1(inputs)
+        conv5x5 = self.conv5x5_2(conv5x5_1)
 
-        conv7x7_2 = self.conv7X7_2(conv5x5_1)
+        conv7x7_2 = self.conv7x7_2(conv5x5_1)
         conv7x7 = self.conv7x7_3(conv7x7_2)
 
         # 将所有结果堆叠起来

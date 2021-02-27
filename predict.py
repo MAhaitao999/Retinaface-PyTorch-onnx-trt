@@ -6,7 +6,7 @@ from nets.retinaface_inference import Retinaface
 if __name__ == '__main__':
     retinaface = Retinaface()
 
-    image = cv2.imread('img/street.jpg')
+    image = cv2.imread('img/multi_faces.jpg')
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     r_image = retinaface.detect_image(image)
     r_image = cv2.cvtColor(r_image, cv2.COLOR_RGB2BGR)
