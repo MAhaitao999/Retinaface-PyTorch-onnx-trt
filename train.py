@@ -34,9 +34,9 @@ def fit_one_epoch(model, net, criterion, optimizer, epoch, epoch_size, gen, Epoc
             if iteration >= epoch_size:
                 break
             images, targets = batch[0], batch[1]
+            
             if len(images) == 0:
                 continue
-
             with torch.no_grad():
                 if cuda:
                     images = Variable(torch.from_numpy(images).type(torch.FloatTensor)).cuda()
@@ -124,8 +124,8 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model_dict = model.state_dict()
     pretrained_dict = torch.load(model_path, map_location=device)
-    for k, v in pretrained_dict.items():
-        print(k)
+    # for k, v in pretrained_dict.items():
+    #     print(k)
     pretrained_dict = {k: v for k, v in pretrained_dict.items() if np.shape(model_dict[k]) == np.shape(v)}
     model_dict.update(pretrained_dict)
     model.load_state_dict(model_dict)
@@ -200,5 +200,4 @@ if __name__ == '__main__':
         for epoch in range(Freeze_Epoch, Unfreeze_Epoch):
             fit_one_epoch(model, net, criterion, optimizer, epoch, epoch_size, gen, Unfreeze_Epoch, anchors, cfg, Cuda)
             lr_scheduler.step()
-
 

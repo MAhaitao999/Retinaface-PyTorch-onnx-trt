@@ -146,14 +146,14 @@ def rand(a=0, b=1):
     return np.random.rand() * (b - a) + a
 
 
-def get_random_data(image, targets, input_shape, jitter=.3, hue=.1, sat=1.5, val=1.5):
+def get_random_data(image, targets, input_shape, random=True, jitter=.1, hue=.1, sat=1.5, val=1.5):
     iw, ih = image.size
     h, w = input_shape
     box = targets
 
     # 对图像进行缩放并且进行长和宽的扭曲
     new_ar = w / h * rand(1 - jitter, 1 + jitter) / rand(1 - jitter, 1 + jitter)
-    scale = rand(0.25, 2.5)
+    scale = rand(0.75, 1.25)
     if new_ar < 1:
         nh = int(scale * h)
         nw = int(nh * new_ar)
@@ -223,8 +223,8 @@ class DataGenerator(data.Dataset):
         words = []
         f = open(self.txt_path, 'r')
         lines = f.readlines()
-        labels = []
         isFirst = True
+        labels = []
         for line in lines:
             line = line.rstrip()
             if line.startswith('#'):

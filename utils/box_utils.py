@@ -11,11 +11,11 @@ def letterbox_image(image, size):
     nh = int(ih * scale)
 
     image = cv2.resize(image, (nw, nh), interpolation=cv2.INTER_LINEAR)
-    new_image = np.ones([size[1], size[0], 3])
+    new_image = np.ones([size[1], size[0], 3]) * 128
     # print('origin is: {} {}'.format(iw, ih))
     # print('resized is: {} {}'.format(nw, nh))
     # print('new_image is: {} {}'.format(size[1], size[0]))
-    new_image[(h-nh)//2:nh+(h-nh)//2, (w-nw)//2:nw+(w-nw)//2] = image
+    new_image[(h - nh) // 2 : nh + (h - nh) // 2, (w - nw) // 2 : nw + (w - nw) // 2] = image
     return new_image
 
 
@@ -223,13 +223,13 @@ def non_max_suppression(boxes, conf_thres=0.5, nms_thres=0.3):
     arg_sort = np.argsort(scores)[::-1]
     detection = detection[arg_sort]
 
-    while np.shape(detection)[0]>0:
+    while np.shape(detection)[0] > 0:
         # 3、每次取出得分最大的框，计算其与其它所有预测框的重合程度，重合程度过大的则剔除。
         best_box.append(detection[0])
         if len(detection) == 1:
             break
         ious = iou(best_box[-1], detection[1:])
-        detection = detection[1:][ious<nms_thres]
+        detection = detection[1:][ious < nms_thres]
 
     return np.array(best_box)
 

@@ -6,7 +6,7 @@ import torch
 
 
 class Anchors(object):
-    def __init__(self, cfg, image_size=None):
+    def __init__(self, cfg, image_size=None, phase='train'):
         super(Anchors, self).__init__()
         self.min_sizes = cfg['min_sizes']
         self.steps = cfg['steps']
