@@ -24,7 +24,7 @@ def preprocess_input(image):
 class Retinaface(object):
     _defaults = {
         "model_path"           : 'model_data/Retinaface_mobilenet0.25.pth',
-        # "model_path"           : 'logs/Epoch1-Total_Loss6.9483.pth',
+        # "model_path"           : 'logs/Epoch100-Total_Loss5.3097.pth',
         "backbone"             : 'mobilenet',
         "confidence"           : 0.5,
         "nms_iou"              : 0.45,
